@@ -38,4 +38,17 @@ def masking_the_card_number2(number_card: str) -> str:
     return str_numb_card
 
 
-print(masking_the_card_number2(from__))
+#print(masking_the_card_number2(from__))
+
+d = ['08 12 2019', '19 11 2019', '03 12 2019', '07 12 2019', '13 11 2019']
+c = ['Открытие вклада', 'Перевод организации', 'Перевод с карты на карту', 'Перевод организации', 'Перевод со счета '                   
+     'на счет']
+q = ['Нет данных', 'Maestro 7810 84** **** 5568', 'MasterCard 1796 81** **** 9527', 'Visa Classic 2842 87** **** 9012',
+     'Счет 3861 14** **** 9794']
+t = ['Счет **5907', 'Счет **2869', 'Visa Classic **9288', 'Счет **3655', 'Счет **8125']
+y = dict(zip(d, q))
+s = dict(zip(d, c))
+print(s)
+
+for i in s:
+    print(i, s[i])
