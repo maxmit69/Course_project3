@@ -1,20 +1,14 @@
 import json
-import os
 from datetime import datetime
 
-content = os.path.join(r'/home/vinsen/PycharmProjects/Course_project3/bank_data/', 'operations.json')
 
-
-def reading_json(path: json) -> list:
+def reading_json(data_file: json) -> list:
     """ Чтение файла с данными из json
-    :param path: Путь к файлу
+    :param data_file: Файл json
     :return: Данные из json
     """
-    with open(path, 'r') as file:
+    with open(data_file, 'r') as file:
         return json.load(file)
-
-
-date_bank = reading_json(content)
 
 
 def validation_check(file_name: list) -> list:
@@ -23,11 +17,11 @@ def validation_check(file_name: list) -> list:
     :return: Валидные данные
     """
     valid_date = []
-    for item in date_bank:
-        if item == {}:
+    for elem in file_name:
+        if elem == {} or elem is None:
             continue
         else:
-            valid_date.append(item)
+            valid_date.append(elem)
     return valid_date
 
 
@@ -47,15 +41,11 @@ def masking_the_card_number(num_card: str) -> str:
     :return: Замаскированный номер
     """
     if not 'None' == num_card:
-        n: int = 4
         str_split = num_card.split()
         str_number = str_split.pop()
-        new_number = str_number[:6] + '*' * 6 + str_number[-4:]
-        new_number = [new_number[item:item + n] for item in range(0, len(new_number), n)]
-        new_number = ' '.join(new_number)
+        new_number = f'{str_number[:4]} {str_number[4:6]}** ****{str_number[-4:]}'
         str_split.append(new_number)
-        str_numb_card = ' '.join(str_split)
-        return str_numb_card
+        return ' '.join(str_split)
     else:
         return f'Нет данных'
 
@@ -66,24 +56,20 @@ def masking_the_card_number2(number_card: str) -> str:
     :param number_card: Номер карты или счета
     :return: Замаскированный номер
     """
-    n: int = 4
     str_split = number_card.split()
-    str_number2 = str_split.pop()
-    new_number = str_number2[:0] + '*' * 2 + str_number2[-4:]
-    new_number = [new_number[item:item + n] for item in range(0, len(new_number), n)]
-    new_number = ''.join(new_number)
+    str_number = str_split.pop()
+    new_number = f'**{str_number[-4:]}'
     str_split.append(new_number)
-    str_numb_card = ' '.join(str_split)
-    return str_numb_card
+    return ' '.join(str_split)
 
 
-def sorts_data_with_time(file_name: list) -> list:
-    """ Сортировка данных по времени
-    :param file_name: Данные из json
-    :return: Сортированные данные
+def sorts_data_with_time(file_date: list) -> list:
+    """ Сортировка даты по убыванию
+    :param file_date: Дата из json по ключу 'date'
+    :return: Отсортированная дата
     """
     date_sort = []
-    for item in file_name:
+    for item in file_date:
         date_sort.append(converts_time(item['date']))
-        sort_data: list[str] = sorted(date_sort, key=lambda x: (x.split()[2], x.split()[1], x.split()[0]), reverse=True)
+    sort_data: list[str] = sorted(date_sort, key=lambda x: (x.split()[2], x.split()[1], x.split()[0]), reverse=True)
     return sort_data
