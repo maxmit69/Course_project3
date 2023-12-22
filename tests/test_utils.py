@@ -38,7 +38,8 @@ def test_masking_the_card_number2():
     assert utils.masking_the_card_number2('МИР 5211277418228469') == "МИР **8469"
 
 
-def test_sorts_data_with_time():
-    assert utils.sorts_data_with_time(
-        [{'date': '2019-05-19T12:51:49.023880'}, {'date': '2018-12-24T20:16:18.819037'}]) == ['19 05 2019',
-                                                                                              '24 12 2018']
+def test_sorts_dict_with_time():
+    assert utils.sorts_dict_with_time([{'date': '2019-05-19T12:51:49.023880', 'state': 'EXECUTED'},
+                                       {'date': '2018-12-24T20:16:18.819037', 'state': 'EXECUTED'}]) == {
+               '19 05 2019': 'EXECUTED',
+               '24 12 2018': 'EXECUTED'}
