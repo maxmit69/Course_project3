@@ -7,7 +7,7 @@ def reading_json(data_file: json) -> list:
     :param data_file: Файл json
     :return: Данные из json
     """
-    with open(data_file, 'r') as file:
+    with open(data_file, encoding="utf=8") as file:
         return json.load(file)
 
 
@@ -63,13 +63,17 @@ def masking_the_card_number2(number_card: str) -> str:
     return ' '.join(str_split)
 
 
-def sorts_data_with_time(file_date: list) -> list:
+def sorts_dict_with_time(file_date: list) -> dict:
     """ Сортировка даты по убыванию
     :param file_date: Дата из json по ключу 'date'
     :return: Отсортированная дата
     """
     date_sort = []
+    execute_state = []
     for item in file_date:
         date_sort.append(converts_time(item['date']))
+        execute_state.append(item['state'])
     sort_data: list[str] = sorted(date_sort, key=lambda x: (x.split()[2], x.split()[1], x.split()[0]), reverse=True)
-    return sort_data
+    sort_dict = dict(zip(sort_data, execute_state))
+    return sort_dict
+
